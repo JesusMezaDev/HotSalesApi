@@ -8,7 +8,7 @@ namespace HotSalesCore.AttributeValidations
         {
             if (value == null || String.IsNullOrEmpty(value.ToString())) return ValidationResult.Success;
 
-            string[] valores = { "0", "M", "F" };
+            string[] valores = { "M", "F" };
 
             if (valores.Contains(value.ToString())) return ValidationResult.Success;
 

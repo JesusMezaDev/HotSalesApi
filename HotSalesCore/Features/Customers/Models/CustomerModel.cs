@@ -5,7 +5,7 @@
         public int Customer_Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        public char Generd { get; set; }
+        public char Gender { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime BirthDate { get; set; }
