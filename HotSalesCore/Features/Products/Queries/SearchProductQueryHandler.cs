@@ -4,7 +4,7 @@ using HotSalesCore.Features.ApiResponse.Models;
 
 namespace HotSalesCore.Features.Products.Queries
 {
-    internal class SearchProductQueryHandler : IRequestHandler<SearchProductQueryRequest, ApiResponseModel>
+    internal class SearchProductQueryHandler: IRequestHandler<SearchProductQueryRequest, ApiResponseModel>
     {
         private readonly SqlConnectionFactory _sqlConnectoinFactory;
 

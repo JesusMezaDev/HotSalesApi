@@ -31,5 +31,14 @@ namespace HotSalesApi.Controllers
             var data = await _mediator.Send(saveProductQueryRequest);
             return Content(JsonConvert.SerializeObject(data), "application/json");
         }
+
+        [HttpDelete("{Product_Id:int}")]
+        public async Task<ContentResult> Delete(int Product_Id)
+        {
+            var query = new DeleteProductQueryRequest();
+            query.Product_Id = Product_Id;
+            var data = await _mediator.Send(query);
+            return Content(JsonConvert.SerializeObject(data), "application/json");
+        }
     }
 }

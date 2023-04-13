@@ -40,6 +40,16 @@ namespace HotSalesCore.Features.Products.Queries
             }
         }
 
+        public async Task<ApiResponseModel> DeleteProduct(int productId)
+        {
+            using (var conn = await _sqlConnectionFactory.GetSqlConnection())
+            {
+                SqlCommand sqlCommand = _sqlConnectionFactory.CreateNewSqlCommand("HotSales..Delete_Product", conn);
+                sqlCommand.Parameters.Add("@Product_Id", SqlDbType.Int).Value = productId;
+                return _sqlConnectionFactory.ExecuteSqlCommand(sqlCommand);
+            }
+        }
+
         public async Task<ApiResponseModel> SaveProduct(SaveProductQueryRequest saveProductQueryRequest)
         {
             using (var conn = await _sqlConnectionFactory.GetSqlConnection())
