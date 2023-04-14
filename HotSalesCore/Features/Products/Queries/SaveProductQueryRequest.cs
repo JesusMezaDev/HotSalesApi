@@ -17,6 +17,7 @@ namespace HotSalesCore.Features.Products.Queries
         [MaxLength(2000)]
         public string? Description { get; set; }
 
+        [Range(1, Int32.MaxValue)]
         [AllowNull]
         public int? ProductCategory_Id { get; set; }
     }
