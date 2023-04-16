@@ -4,7 +4,7 @@ using HotSalesCore.Features.ApiResponse.Models;
 
 namespace HotSalesCore.Features.Products.Queries
 {
-    public class DeleteProductQueryRequest : IRequest<ApiResponseModel>
+    public class DeleteProductQueryRequest: IRequest<ApiResponseModel>
     {
         [Required]
         public int Product_Id { get; set; }

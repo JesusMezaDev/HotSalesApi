@@ -1,10 +1,10 @@
-﻿using HotSalesCore.Data;
+﻿using MediatR;
+using HotSalesCore.Data;
 using HotSalesCore.Features.ApiResponse.Models;
-using MediatR;
 
 namespace HotSalesCore.Features.Products.Queries
 {
-    internal class DeleteProductQueryHandler : IRequestHandler<DeleteProductQueryRequest, ApiResponseModel>
+    internal class DeleteProductQueryHandler: IRequestHandler<DeleteProductQueryRequest, ApiResponseModel>
     {
         private readonly SqlConnectionFactory _sqlConnectoinFactory;
 

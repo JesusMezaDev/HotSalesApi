@@ -9,7 +9,7 @@ namespace HotSalesApi.Controllers
 {
     [Route("api/address")]
     [ApiController]
-    public class SettlementsController : ControllerBase
+    public class SettlementsController: ControllerBase
     {
         private readonly IMediator _mediator;
         public SettlementsController(IMediator mediator)

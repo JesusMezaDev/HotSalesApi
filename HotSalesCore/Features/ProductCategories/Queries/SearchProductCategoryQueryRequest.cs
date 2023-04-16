@@ -2,9 +2,9 @@
 using MediatR;
 using HotSalesCore.Features.ApiResponse.Models;
 
-namespace HotSalesCore.Features.Products.Queries
+namespace HotSalesCore.Features.ProductCategories.Queries
 {
-    public class SearchProductQueryRequest: IRequest<ApiResponseModel>
+    public class SearchProductCategoryQueryRequest: IRequest<ApiResponseModel>
     {
         [Required]
         [MinLength(1)]

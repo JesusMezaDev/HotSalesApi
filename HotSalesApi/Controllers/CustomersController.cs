@@ -7,7 +7,7 @@ namespace HotSalesApi.Controllers
 {
     [Route("api/customers")]
     [ApiController]
-    public class CustomersController : ControllerBase
+    public class CustomersController: ControllerBase
     {
         private readonly IMediator _mediator;
         public CustomersController(IMediator mediator)

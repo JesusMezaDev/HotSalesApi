@@ -1,13 +1,7 @@
-﻿using HotSalesCore.Data;
-using HotSalesCore.Features.ApiResponse.Models;
-using HotSalesCore.Features.Customers.Queries;
-using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HotSalesCore.Data;
+using HotSalesCore.Features.ApiResponse.Models;
 
 namespace HotSalesCore.Features.Products.Queries
 {
@@ -58,6 +52,19 @@ namespace HotSalesCore.Features.Products.Queries
                 sqlCommand.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = saveProductQueryRequest.Name;
                 sqlCommand.Parameters.Add("@Description", SqlDbType.VarChar, 2000).Value = saveProductQueryRequest.Description;
                 sqlCommand.Parameters.Add("@ProductCategory_Id", SqlDbType.Int).Value = saveProductQueryRequest.ProductCategory_Id;
+                return _sqlConnectionFactory.ExecuteSqlCommand(sqlCommand);
+            }
+        }
+
+        public async Task<ApiResponseModel> UpdateProduct(UpdateProductQueryRequest updateProductQueryRequest)
+        {
+            using (var conn = await _sqlConnectionFactory.GetSqlConnection())
+            {
+                SqlCommand sqlCommand = _sqlConnectionFactory.CreateNewSqlCommand("HotSales..Update_Product", conn);
+                sqlCommand.Parameters.Add("@Product_Id", SqlDbType.Int).Value = updateProductQueryRequest.Product_Id;
+                sqlCommand.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = updateProductQueryRequest.Name;
+                sqlCommand.Parameters.Add("@Description", SqlDbType.VarChar, 2000).Value = updateProductQueryRequest.Description;
+                sqlCommand.Parameters.Add("@ProductCategory_Id", SqlDbType.Int).Value = updateProductQueryRequest.ProductCategory_Id;
                 return _sqlConnectionFactory.ExecuteSqlCommand(sqlCommand);
             }
         }

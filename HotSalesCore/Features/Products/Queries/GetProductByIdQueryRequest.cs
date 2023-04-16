@@ -4,11 +4,10 @@ using HotSalesCore.Features.ApiResponse.Models;
 
 namespace HotSalesCore.Features.Products.Queries
 {
-    public class SearchProductQueryRequest: IRequest<ApiResponseModel>
+    public class GetProductByIdQueryRequest: IRequest<ApiResponseModel>
     {
         [Required]
-        [MinLength(1)]
-        [MaxLength(50)]
-        public string SearchTerm { get; set; }
+        [Range(1, Int32.MaxValue)]
+        public int Product_Id { get; set; }
     }
 }
