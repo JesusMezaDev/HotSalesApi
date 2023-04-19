@@ -35,6 +35,15 @@ namespace HotSalesCore.Features.ProductCategories.Queries
             }
         }
 
+        public async Task<ApiResponseModel> GetAllProductCategories()
+        {
+            using (var conn = await _sqlConnectionFactory.GetSqlConnection())
+            {
+                SqlCommand sqlCommand = _sqlConnectionFactory.CreateNewSqlCommand("HotSales..Get_AllProductCategories", conn);
+                return _sqlConnectionFactory.ExecuteSqlCommand(sqlCommand);
+            }
+        }
+
         public async Task<ApiResponseModel> DeleteProductCategory(int productCategoryId)
         {
             using (var conn = await _sqlConnectionFactory.GetSqlConnection())
