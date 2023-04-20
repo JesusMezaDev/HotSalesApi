@@ -32,12 +32,12 @@ namespace HotSalesApi.Controllers
             return Content(JsonConvert.SerializeObject(data), "application/json");
         }
 
-        [HttpGet, Route("{Search_Term}")]
-        public async Task<ContentResult> GetByTerm(string Search_Term)
+        [HttpGet("get")]
+        public async Task<ContentResult> GetByTerm([FromQuery]SearchProductCategoryQueryRequest searchProductCategoryQueryRequest)
         {
-            var query = new SearchProductCategoryQueryRequest();
-            query.SearchTerm = Search_Term;
-            var data = await _mediator.Send(query);
+            //var query = new SearchProductCategoryQueryRequest();
+            //query.Search_Term = Search_Term;
+            var data = await _mediator.Send(searchProductCategoryQueryRequest);
             return Content(JsonConvert.SerializeObject(data), "application/json");
         }
 

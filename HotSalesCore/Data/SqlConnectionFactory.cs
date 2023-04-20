@@ -33,6 +33,12 @@ namespace HotSalesCore.Data
             return sqlCommand;
         }
 
+        public void AddPaginationSqlCommand(SqlCommand sqlCommand, int pageNum, int pageSize)
+        {
+            sqlCommand.Parameters.Add("@PageNum", SqlDbType.Int).Value = pageNum;
+            sqlCommand.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+        }
+
         public ApiResponseModel ExecuteSqlCommand(SqlCommand sqlCommand)
         {
             try

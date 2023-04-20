@@ -3,12 +3,13 @@ using Newtonsoft.Json;
 using MediatR;
 
 using HotSalesCore.Features.Products.Queries;
+using HotSalesCore.Features.Pagination.Models;
 
 namespace HotSalesApi.Controllers
 {
     [Route("api/products")]
     [ApiController]
-    public class ProductsController: ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IMediator _mediator;
         public ProductsController(IMediator mediator)
@@ -25,12 +26,15 @@ namespace HotSalesApi.Controllers
             return Content(JsonConvert.SerializeObject(data), "application/json");
         }
 
-        [HttpGet, Route("{Search_Term}")]
-        public async Task<ContentResult> GetByTerm(string Search_Term)
+        //[HttpGet, Route("{Search_Term}")]
+        [HttpGet]
+        public async Task<ContentResult> GetByTerm([FromQuery] SearchProductQueryRequest searchProductQueryRequest)
         {
-            var query = new SearchProductQueryRequest();
-            query.SearchTerm = Search_Term;
-            var data = await _mediator.Send(query);
+            //var query = new SearchProductQueryRequest();
+            //query.Search_Term = searchProductQueryRequest.Search_Term;
+            //query.Page = searchProductQueryRequest.Page;
+            //query.RecordsByPage = searchProductQueryRequest.RecordsByPage;
+            var data = await _mediator.Send(searchProductQueryRequest);
             return Content(JsonConvert.SerializeObject(data), "application/json");
         }
 

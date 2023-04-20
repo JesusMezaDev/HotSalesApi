@@ -16,7 +16,7 @@ namespace HotSalesCore.Features.ProductCategories.Queries
         public async Task<ApiResponseModel> Handle(SearchProductCategoryQueryRequest request, CancellationToken cancellationToken)
         {
             var dbProductCategories = new ProductCategoriesFromDataBase(_sqlConnectoinFactory);
-            var response = await dbProductCategories.SearchProductCategories(request.SearchTerm);
+            var response = await dbProductCategories.SearchProductCategories(request.Search_Term);
             return response;
         }
     }

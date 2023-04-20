@@ -14,12 +14,13 @@ namespace HotSalesCore.Features.Products.Queries
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public async Task<ApiResponseModel> SearchProducts(string searchTerm)
+        public async Task<ApiResponseModel> SearchProducts(SearchProductQueryRequest searchProductQueryRequest)
         {
             using (var conn = await _sqlConnectionFactory.GetSqlConnection())
             {
                 SqlCommand sqlCommand = _sqlConnectionFactory.CreateNewSqlCommand("HotSales..Search_Products", conn);
-                sqlCommand.Parameters.Add("@Search_Term", SqlDbType.VarChar, 50).Value = searchTerm;
+                _sqlConnectionFactory.AddPaginationSqlCommand(sqlCommand, searchProductQueryRequest.Page, searchProductQueryRequest.RecordsByPage);
+                sqlCommand.Parameters.Add("@Search_Term", SqlDbType.VarChar, 50).Value = searchProductQueryRequest.Search_Term;
                 return _sqlConnectionFactory.ExecuteSqlCommand(sqlCommand);
             }
         }

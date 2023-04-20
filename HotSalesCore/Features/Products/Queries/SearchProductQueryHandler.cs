@@ -16,7 +16,7 @@ namespace HotSalesCore.Features.Products.Queries
         public async Task<ApiResponseModel> Handle(SearchProductQueryRequest request, CancellationToken cancellationToken)
         {
             var dbProducts = new ProductsFromDataBase(_sqlConnectoinFactory);
-            var response = await dbProducts.SearchProducts(request.SearchTerm);
+            var response = await dbProducts.SearchProducts(request);
             return response;
         }
     }
