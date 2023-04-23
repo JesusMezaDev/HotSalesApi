@@ -11,7 +11,7 @@ namespace HotSalesCore.Features.Pagination.Queries
         
         private readonly int MaxRecordsByPage = 50;
         
-        private int _recordsByPage = 5;
+        private int _recordsByPage = 20;
 
         [AllowNull]
         [Range(1, 50)]

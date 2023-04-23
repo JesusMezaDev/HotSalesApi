@@ -2,6 +2,7 @@
 using System.Data;
 using HotSalesCore.Data;
 using HotSalesCore.Features.ApiResponse.Models;
+using HotSalesCore.Features.Pagination.Queries;
 
 namespace HotSalesCore.Features.Products.Queries
 {
@@ -21,6 +22,16 @@ namespace HotSalesCore.Features.Products.Queries
                 SqlCommand sqlCommand = _sqlConnectionFactory.CreateNewSqlCommand("HotSales..Search_Products", conn);
                 _sqlConnectionFactory.AddPaginationSqlCommand(sqlCommand, searchProductQueryRequest.Page, searchProductQueryRequest.RecordsByPage);
                 sqlCommand.Parameters.Add("@Search_Term", SqlDbType.VarChar, 50).Value = searchProductQueryRequest.Search_Term;
+                return _sqlConnectionFactory.ExecuteSqlCommand(sqlCommand);
+            }
+        }
+
+        public async Task<ApiResponseModel> GetAllProducts(GetAllProductsQueryRequest getAllProductsQueryRequest)
+        {
+            using (var conn = await _sqlConnectionFactory.GetSqlConnection())
+            {
+                SqlCommand sqlCommand = _sqlConnectionFactory.CreateNewSqlCommand("HotSales..Get_AllProducts", conn);
+                _sqlConnectionFactory.AddPaginationSqlCommand(sqlCommand, getAllProductsQueryRequest.Page, getAllProductsQueryRequest.RecordsByPage);
                 return _sqlConnectionFactory.ExecuteSqlCommand(sqlCommand);
             }
         }

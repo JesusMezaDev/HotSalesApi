@@ -4,6 +4,8 @@ using MediatR;
 
 using HotSalesCore.Features.Products.Queries;
 using HotSalesCore.Features.Pagination.Models;
+using HotSalesCore.Features.Pagination.Queries;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HotSalesApi.Controllers
 {
@@ -18,7 +20,7 @@ namespace HotSalesApi.Controllers
         }
 
         [HttpGet("{Product_Id:int}")]
-        public async Task<ContentResult> GetByTerm(int Product_Id)
+        public async Task<ContentResult> Get(int Product_Id)
         {
             var query = new GetProductByIdQueryRequest();
             query.Product_Id = Product_Id;
@@ -26,15 +28,26 @@ namespace HotSalesApi.Controllers
             return Content(JsonConvert.SerializeObject(data), "application/json");
         }
 
-        //[HttpGet, Route("{Search_Term}")]
         [HttpGet]
-        public async Task<ContentResult> GetByTerm([FromQuery] SearchProductQueryRequest searchProductQueryRequest)
+        public async Task<ContentResult> GetAll()
         {
-            //var query = new SearchProductQueryRequest();
-            //query.Search_Term = searchProductQueryRequest.Search_Term;
-            //query.Page = searchProductQueryRequest.Page;
-            //query.RecordsByPage = searchProductQueryRequest.RecordsByPage;
-            var data = await _mediator.Send(searchProductQueryRequest);
+            var query = new GetAllProductsQueryRequest();
+            var pagination = GetPagination();
+            query.Page = pagination.Page;
+            query.RecordsByPage = pagination.RecordsByPage;
+            var data = await _mediator.Send(query);
+            return Content(JsonConvert.SerializeObject(data), "application/json");
+        }
+
+        [HttpGet, Route("{term}")]
+        public async Task<ContentResult> GetByTerm(string term)
+        {
+            var query = new SearchProductQueryRequest();
+            var pagination = GetPagination();
+            query.Search_Term = term;
+            query.Page = pagination.Page;
+            query.RecordsByPage = pagination.RecordsByPage;
+            var data = await _mediator.Send(query);
             return Content(JsonConvert.SerializeObject(data), "application/json");
         }
 
@@ -59,6 +72,26 @@ namespace HotSalesApi.Controllers
             query.Product_Id = Product_Id;
             var data = await _mediator.Send(query);
             return Content(JsonConvert.SerializeObject(data), "application/json");
+        }
+
+        private PaginationQueryRequest GetPagination()
+        {
+            var pagination = new PaginationQueryRequest();
+
+            if (HttpContext.Request.Query.Count > 0)
+            {    
+                if (!HttpContext.Request.Query["page"].IsNullOrEmpty())
+                {
+                    pagination.Page = Convert.ToInt32(HttpContext.Request.Query["page"]);
+                }
+
+                if (!HttpContext.Request.Query["recordsByPage"].IsNullOrEmpty())
+                {
+                    pagination.RecordsByPage = Convert.ToInt32(HttpContext.Request.Query["recordsByPage"]);
+                }
+            }
+
+            return pagination;
         }
     }
 }
