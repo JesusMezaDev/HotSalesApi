@@ -2,10 +2,11 @@
 
 using HotSalesCore.Features.ApiResponse.Models;
 using System.ComponentModel.DataAnnotations;
+using HotSalesCore.Features.Pagination.Queries;
 
 namespace HotSalesCore.Features.Customers.Queries
 {
-    public class SearchCustomerQueryRequest: IRequest<ApiResponseModel>
+    public class SearchCustomerQueryRequest: PaginationQueryRequest, IRequest<ApiResponseModel>
     {
         [Required]
         [MinLength(1)]

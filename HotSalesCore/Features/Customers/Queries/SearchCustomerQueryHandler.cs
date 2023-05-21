@@ -17,7 +17,7 @@ namespace HotSalesCore.Features.Customers.Queries
         public async Task<ApiResponseModel> Handle(SearchCustomerQueryRequest request, CancellationToken cancellationToken)
         {
             var dbCustomers = new GetCustomersFromDataBase(_sqlConnectoinFactory);
-            var response = await dbCustomers.SearchCustomer(request.SearchTerm);
+            var response = await dbCustomers.SearchCustomer(request);
             return response;
         }
     }

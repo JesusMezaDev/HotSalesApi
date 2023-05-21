@@ -1,6 +1,8 @@
 ﻿using HotSalesCore.Features.Customers.Queries;
+using HotSalesCore.Features.Pagination.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace HotSalesApi.Controllers
@@ -19,7 +21,10 @@ namespace HotSalesApi.Controllers
         public async Task<ContentResult> GetByTerm(string Search_Term)
         {
             var query = new SearchCustomerQueryRequest();
+            var pagination = GetPagination();
             query.SearchTerm = Search_Term;
+            query.Page = pagination.Page;
+            query.RecordsByPage = pagination.RecordsByPage;
             var data = await _mediator.Send(query);
             return Content(JsonConvert.SerializeObject(data), "application/json");
         }
@@ -38,6 +43,26 @@ namespace HotSalesApi.Controllers
         {
             var data = await _mediator.Send(saveCustomerQueryRequest);
             return Content(JsonConvert.SerializeObject(data), "application/json");
+        }
+
+        private PaginationQueryRequest GetPagination()
+        {
+            var pagination = new PaginationQueryRequest();
+
+            if (HttpContext.Request.Query.Count > 0)
+            {
+                if (!HttpContext.Request.Query["page"].IsNullOrEmpty())
+                {
+                    pagination.Page = Convert.ToInt32(HttpContext.Request.Query["page"]);
+                }
+
+                if (!HttpContext.Request.Query["recordsByPage"].IsNullOrEmpty())
+                {
+                    pagination.RecordsByPage = Convert.ToInt32(HttpContext.Request.Query["recordsByPage"]);
+                }
+            }
+
+            return pagination;
         }
     }
 }

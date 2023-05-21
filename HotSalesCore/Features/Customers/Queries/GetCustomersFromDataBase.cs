@@ -1,5 +1,6 @@
 ﻿using HotSalesCore.Data;
 using HotSalesCore.Features.ApiResponse.Models;
+using HotSalesCore.Features.Products.Queries;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -14,12 +15,13 @@ namespace HotSalesCore.Features.Customers.Queries
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public async Task<ApiResponseModel> SearchCustomer(string searchTerm)
+        public async Task<ApiResponseModel> SearchCustomer(SearchCustomerQueryRequest searchCustomerQueryRequest)
         {
             using (var conn = await _sqlConnectionFactory.GetSqlConnection())
             {
                 SqlCommand sqlCommand = _sqlConnectionFactory.CreateNewSqlCommand("HotSales..Search_Customers", conn);
-                sqlCommand.Parameters.Add("@Search_Term", SqlDbType.VarChar, 50).Value = searchTerm;
+                _sqlConnectionFactory.AddPaginationSqlCommand(sqlCommand, searchCustomerQueryRequest.Page, searchCustomerQueryRequest.RecordsByPage);
+                sqlCommand.Parameters.Add("@Search_Term", SqlDbType.VarChar, 50).Value = searchCustomerQueryRequest.SearchTerm.Trim();
                 return _sqlConnectionFactory.ExecuteSqlCommand(sqlCommand);
             }
         }
